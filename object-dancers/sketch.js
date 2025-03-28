@@ -253,7 +253,7 @@ for (let i = 0; i < this.numStrands; i++) {
     // it is using "this" because this function, too, 
     // is a part if your Dancer object.
     // comment it out or delete it eventually.
-    this.drawReferenceShapes()
+    //this.drawReferenceShapes()
 
     pop();
   }
