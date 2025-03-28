@@ -18,7 +18,7 @@ function setup() {
   canvas.parent("p5-canvas-container");
 
   // ...except to adjust the dancer's name on the next line:
-  dancer = new YourNameDancer(width / 2, height / 2);
+  dancer = new Flubble(width / 2, height / 2);
 }
 
 function draw() {
@@ -32,7 +32,7 @@ function draw() {
 
 // You only code inside this class.
 // Start by giving the dancer your name, e.g. LeonDancer.
-class YourNameDancer {
+class Flubble {
   constructor(startX, startY) {
     this.x = startX;
     this.y = startY;
@@ -40,6 +40,11 @@ class YourNameDancer {
     //..
     //..
     //..
+    this.color = color(128, 0, 128)
+    this.xCor = 0
+    this.yCor = 0
+    this.numStrands = 70; //amount of hair strands
+    this.hairPositions = []; // array for hair strand positions
   }
   update() {
     // update properties here to achieve
@@ -49,14 +54,165 @@ class YourNameDancer {
     // the push and pop, along with the translate 
     // places your whole dancer object at this.x and this.y.
     // you may change its position on line 19 to see the effect.
+
     push();
     translate(this.x, this.y);
 
     // ******** //
     // ⬇️ draw your dancer from here ⬇️
 
+    fill(this.color)
+    noStroke()
+
+    //main body using circle and rect, bc ellipse wasn't giving the more rounded, full edges for the top and bottom of the shape
+    circle(0,20,30)
+    rect(-15,-30,30,50)
+    circle(0,-30,30)
+
+  
+    // right arm
+beginShape();
+curveVertex(this.xCor + 0, this.yCor - 20);
+curveVertex(this.xCor + 0, this.yCor - 20); 
+
+curveVertex(this.xCor + 40, this.yCor - 10); 
+curveVertex(this.xCor + 42, this.yCor - 10);
+curveVertex(this.xCor + 60, this.yCor - 20); 
+curveVertex(this.xCor + 62, this.yCor - 22); 
+curveVertex(this.xCor + 64, this.yCor - 18); 
+curveVertex(this.xCor + 40, this.yCor - 7); 
+
+curveVertex(this.xCor + 0, this.yCor - 10); 
+curveVertex(this.xCor + 0, this.yCor - 10);
+
+endShape();
 
 
+    // left arm
+    beginShape();
+    curveVertex(this.xCor - 0, this.yCor - 20); 
+    curveVertex(this.xCor - 0, this.yCor - 20); 
+    
+    curveVertex(this.xCor - 40, this.yCor - 10); 
+    curveVertex(this.xCor - 42, this.yCor - 10);
+    curveVertex(this.xCor - 60, this.yCor - 20); 
+    curveVertex(this.xCor - 62, this.yCor - 22); 
+    curveVertex(this.xCor - 64, this.yCor - 18);
+    curveVertex(this.xCor - 40, this.yCor - 7); 
+
+    curveVertex(this.xCor - 0, this.yCor - 10); 
+    curveVertex(this.xCor - 0, this.yCor - 10);
+    
+    endShape();
+
+// circle(10,30,5)
+// circle(0,55,5)
+// circle(10,85,5)
+
+
+
+    // right leg
+    beginShape();
+curveVertex(this.xCor + 15, this.yCor + 20); 
+curveVertex(this.xCor + 15, this.yCor + 20); 
+
+curveVertex(this.xCor + 5, this.yCor + 55); 
+curveVertex(this.xCor + 5, this.yCor + 57); 
+curveVertex(this.xCor + 12, this.yCor + 85); 
+curveVertex(this.xCor + 5, this.yCor + 85);
+curveVertex(this.xCor + -5, this.yCor + 57); 
+curveVertex(this.xCor + -5, this.yCor + 55); 
+
+
+curveVertex(this.xCor + 5, this.yCor + 30); 
+curveVertex(this.xCor + 5, this.yCor + 30); 
+
+endShape();
+
+// left leg
+beginShape();
+curveVertex(this.xCor + 2, this.yCor + 10);
+curveVertex(this.xCor + 2, this.yCor + 10);
+
+curveVertex(this.xCor - 15, this.yCor + 55); 
+curveVertex(this.xCor - 15, this.yCor + 57); 
+curveVertex(this.xCor - 8, this.yCor + 85); 
+curveVertex(this.xCor - 15, this.yCor + 85); 
+curveVertex(this.xCor - 25, this.yCor + 57); 
+curveVertex(this.xCor - 25, this.yCor + 55);
+
+curveVertex(this.xCor - 5, this.yCor + 10); 
+curveVertex(this.xCor - 5, this.yCor + 10); 
+
+endShape();
+
+stroke(0, 191, 255); 
+for (let i = 0; i < this.numStrands; i++) {
+  let xPos = random(-15, 15); 
+  let yPos = random(-40, -35);
+  // curve/bend hair strands
+  beginShape();
+  let controlPointX = random(-10, 10); 
+  let controlPointY = random(-5, -10);
+
+  // hair first bend
+  vertex(xPos, yPos); 
+  vertex(xPos + controlPointX, yPos + controlPointY); 
+
+  //hair second bend
+  controlPointX = random(-10, 10);
+  controlPointY = random(-5, -10);
+  vertex(xPos + controlPointX * 2, yPos + controlPointY * 2); 
+  endShape();
+}
+
+//right eye
+  fill(120, 120, 120, 100); 
+  noStroke();
+  circle(8, -25, 16); 
+
+  fill(180, 180, 180, 150); 
+  circle(8, -25, 14);
+
+  fill(240, 240, 240); 
+  circle(8, -25, 12); 
+
+  // main outer part of the eye
+  fill(255, 255, 255); 
+  circle(8, -25, 10);
+
+   // pupil
+   fill(100, 50, 255); 
+   circle(8, -25, 8.5); 
+
+//left eye
+ 
+   fill(120, 120, 120, 100); 
+   noStroke();
+   circle(-8.5, -25, 16); 
+ 
+   fill(180, 180, 180, 150);
+   circle(-8.5, -25, 14); 
+ 
+   fill(240, 240, 240); 
+   circle(-8.5, -25, 12); 
+ 
+   //main outer part of the eye
+   fill(255, 255, 255); 
+   circle(-8.5, -25, 10); 
+
+    //pupil
+  fill(100, 50, 255);
+  circle(-8.5, -25, 8.5); 
+
+
+  //lips
+  
+ fill(255, 0, 127); 
+ noStroke();  
+ ellipse(0, -15, 18, 10);  
+ fill(0);
+ ellipse(0, -15, 6, 3);  
 
 
 
