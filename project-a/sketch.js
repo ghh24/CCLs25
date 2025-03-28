@@ -17,7 +17,7 @@
 let x, y, size1, size2;
 let n = 10; // num points for the bubble
 let xr, yr, R;
-let gridSize = 10;
+let gridSize = 10; //TESt TEST
 let counter = 0
 
 let smallSize = 2; 
