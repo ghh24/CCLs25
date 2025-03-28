@@ -1,0 +1,91 @@
+<!-- 
+Template for IMA's Creative Coding Lab 
+
+Project A: Generative Creatures
+CCLaboratories Biodiversity Atlas 
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>[ The Nervous Form ]</title>
+
+    <!-- allow special characters, including Arabic, Chinese, Korean, Japanese, etc. -->
+    <meta charset="UTF-8">
+    <!-- link the style sheet -->
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <!-- import p5.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.3/lib/p5.min.js"></script>
+    <script>
+        // prevent scrolling when spacebar and arrow keys are pressed.
+        window.addEventListener("keydown", function (e) { if ([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) { e.preventDefault(); } }, false);
+    </script>
+</head>
+
+<body>
+
+    <!-- title -->
+    <div id="title-wrapper">
+        <h1 class="headline black">The Nervous Form</h1>
+    </div>
+
+    <!-- main content -->
+    <div id="main-wrapper">
+         <div id="p5-canvas-container">
+            <!-- This is where your p5 sketch will be appended and appear! -->
+        </div>
+    
+        <div class="two-columns">
+            <div class="left">
+                <h3 class="red">Scientific Name:</h3>
+                <p>Nervus anxiosus forma structurae</p>
+
+                <h3 class="red">Discovered by / at:</h3>
+                <p>Bacteria existing in the 'big bang' universe, 11 Billion BCE</p>
+
+                <h3 class="green">Family:</h3>
+                <p>Neurophylum</p>
+            </div>
+            <div class="right">
+                <h3 class="green">Habitat:</h3>
+                <p>In the early realms of life, a practically empty universe, but the start of the 'primoridal soup'</p>
+
+                <h3 class="green">Appearance: </h3>
+                <p>An undjulating form, with dynamic wings, and a body that transforms based on the level of nervousness of the creature: from circles, to squares, to butterflies</p>
+
+                <h3 class="green">Key Characteristics:</h3>
+                <ul>
+                    <li>When "pressed" the main body of the form changes (from relaxed (circles), to 'squared off,' and finally 'butterflies in the stomach')</li>
+                    <li>Constantly undulating no matter what shape</li>
+                    <li>moving "wings"</li>
+                    <li>its 'intrusive'/'anxious' thoughts appearing from place to place (ex. 'when I am pressed, I get more nervous...')</li>
+                   
+                </ul>
+            </div>
+        </div>
+        <div class="one-column">
+            <p>
+                <span class="yellow">What we know so far about The Nervous Form?</span>
+Even before humans and many other life forms existed, there were only a few organisms floating around in the vast concept of what we know as space. However, these organisms communicated, interpreted, and felt things much like humans did. They had a 'language' similar to present-day English (hence the play on words of feeling 'pressed' or 'centered') and felt nervousness due to being quite alone in the universe. Its only 'discovery' occurred around the time the Big Bang happened, as other organisms and bacteria started appearing, and they would 'bump' into each other once in a blue moon. As of now, the Nervous Form is still quietly moving through space, just trying to find its way through the unknown.                <br>
+                <span class="yellow">Guidelines for human interaction with this creature</span> The Form first begins as a mostly unbothered, yet still tentatively oscillating, entity (form: circle). Once “pressed” a.k.a. the mouse is pressed, the entity transforms into a form with “points” or edges to protect itself and represent its deflectiveness (from: square; being 'squared off'). Finally, when combining mouse pressed and a key pressed, the creature shifts into its most dire form, a stomach of butterflies. Linguistically, being 'pressed' means facing limits or pressure, which can cause nervousness, and in code, the key or mouse being pressed causes the nervousness to progress in the creature, as it experiences being 'pressed.' Simultaneously, as the creature moves towards the center, the calmly swirling background starts appearing, the Nervous Form only revealing its true sense of 'peace' when it feels grounded and 'centered' in its swirling, calmly anxious place in the universe. When the cursor is floating near the center, the Nervous Form's true internal instrusive/anxious 'thoughts' appear, revealing those mechanisms of a key and/or mouse pressed, which will make it feel more nervous and change forms.
+
+            </p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div id="footer" class="black">
+        <p>A CCLab project made by Grace in Spring 2025</p>
+    </div>
+
+    <!-- Home: Link back to the ATLAS page-->
+    <div id="home">
+        <a href="https://cclab.work/atlas">Back to the ATLAS</a>
+    </div>
+
+    <!-- Include your sketch.js file here -->
+    <script src="sketch.js" type="text/javascript"> </script>
+</body>
+
+</html>
