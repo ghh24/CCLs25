@@ -36,22 +36,39 @@ class Flubble {
   constructor(startX, startY) {
     this.x = startX;
     this.y = startY;
-    // add properties for your dancer here:
-    //..
-    //..
-    //..
-    this.color = color(128, 0, 128)
-    this.xCor = 0
-    this.yCor = 0
-    this.numStrands = 70; //amount of hair strands
-    this.hairPositions = []; // array for hair strand positions
+    this.color = color(128, 0, 128);
+    this.numStrands = 70;
+    this.hairPositions = [];
+
+    this.angleRightArm = 0;
+    this.angleLeftArm = 0;
+
+    this.angleRightLeg = 0;
+    this.angleLeftLeg = 0;
+
+    this.pupilX = 5;
+    this.pupilY = 0;
+
+    this.directionFactor = 1; 
   }
+
   update() {
-    // update properties here to achieve
-    // your dancer's desired moves and behaviour
+    // arm to move around
+    this.angleRightArm = sin(frameCount * 0.05) * PI / 4;
+    this.angleLeftArm = -sin(frameCount * 0.05) * PI / 4;
+
+    this.angleRightLeg = sin(frameCount * 0.1) * PI / 8;
+    this.angleLeftLeg = -sin(frameCount * 0.1) * PI / 8;
+
+    this.rightPupilX = 8 + sin(frameCount * 0.1) * 4;
+    this.rightPupilY = -25 + cos(frameCount * 0.1) * 4;
+
+    this.leftPupilX = -8.5 + sin(frameCount * 0.1) * 4;
+    this.leftPupilY = -25 + cos(frameCount * 0.1) * 4;
   }
+
   display() {
-    // the push and pop, along with the translate 
+// the push and pop, along with the translate 
     // places your whole dancer object at this.x and this.y.
     // you may change its position on line 19 to see the effect.
 
@@ -61,91 +78,105 @@ class Flubble {
     // ******** //
     // ⬇️ draw your dancer from here ⬇️
 
-    fill(this.color)
-    noStroke()
+    //move back and forth for running 
+    let runShift = sin(frameCount * 0.05) * 20 * this.directionFactor;
+    translate(runShift, 0);  
 
-    //main body using circle and rect, bc ellipse wasn't giving the more rounded, full edges for the top and bottom of the shape
-    circle(0,20,30)
-    rect(-15,-30,30,50)
-    circle(0,-30,30)
+    // switch direction if reaches specified range
+    if (abs(runShift) > 18) {  
+      this.directionFactor *= -1;  
+    }
 
-  
-    // right arm
-beginShape();
-curveVertex(this.xCor + 0, this.yCor - 20);
-curveVertex(this.xCor + 0, this.yCor - 20); 
+    fill(this.color);
+    noStroke();
 
-curveVertex(this.xCor + 40, this.yCor - 10); 
-curveVertex(this.xCor + 42, this.yCor - 10);
-curveVertex(this.xCor + 60, this.yCor - 20); 
-curveVertex(this.xCor + 62, this.yCor - 22); 
-curveVertex(this.xCor + 64, this.yCor - 18); 
-curveVertex(this.xCor + 40, this.yCor - 7); 
+        //main body using circle and rect, bc ellipse wasn't giving the more rounded, full edges for the top and bottom of the shape
 
-curveVertex(this.xCor + 0, this.yCor - 10); 
-curveVertex(this.xCor + 0, this.yCor - 10);
-
-endShape();
-
+    circle(0, 20, 30);
+    rect(-15, -30, 30, 50);
+    circle(0, -30, 30);
 
     // left arm
+    push();
+    translate(0, -10);  
+    translate(0, -20);
+    rotate(this.angleRightArm);
     beginShape();
-    curveVertex(this.xCor - 0, this.yCor - 20); 
-    curveVertex(this.xCor - 0, this.yCor - 20); 
-    
-    curveVertex(this.xCor - 40, this.yCor - 10); 
-    curveVertex(this.xCor - 42, this.yCor - 10);
-    curveVertex(this.xCor - 60, this.yCor - 20); 
-    curveVertex(this.xCor - 62, this.yCor - 22); 
-    curveVertex(this.xCor - 64, this.yCor - 18);
-    curveVertex(this.xCor - 40, this.yCor - 7); 
-
-    curveVertex(this.xCor - 0, this.yCor - 10); 
-    curveVertex(this.xCor - 0, this.yCor - 10);
-    
+    curveVertex(0, -20);
+    curveVertex(0, -20);
+    curveVertex(40 * this.directionFactor, -10);
+    curveVertex(42 * this.directionFactor, -10);
+    curveVertex(60 * this.directionFactor, -20);
+    curveVertex(62 * this.directionFactor, -22);
+    curveVertex(64 * this.directionFactor, -18);
+    curveVertex(40 * this.directionFactor, -7);
+    curveVertex(0, -10);
+    curveVertex(0, -10);
     endShape();
+    pop();
 
-// circle(10,30,5)
+    //aleft arm
+    push();
+    translate(0, -10);  
+    translate(0, -20); 
+    rotate(this.angleLeftArm);
+    beginShape();
+    curveVertex(0, -20);
+    curveVertex(0, -20);
+    curveVertex(-40 * this.directionFactor, -10);
+    curveVertex(-42 * this.directionFactor, -10);
+    curveVertex(-60 * this.directionFactor, -20);
+    curveVertex(-62 * this.directionFactor, -22);
+    curveVertex(-64 * this.directionFactor, -18);
+    curveVertex(-40 * this.directionFactor, -7);
+    curveVertex(0, -10);
+    curveVertex(0, -10);
+    endShape();
+    pop();
+
+
+    // circle(10,30,5)
 // circle(0,55,5)
 // circle(10,85,5)
 
-
-
-    // right leg
+    //right leg
+    push();
+    translate(0, 30);  
+    translate(0, -20);  
+    rotate(this.angleRightLeg);
     beginShape();
-curveVertex(this.xCor + 15, this.yCor + 20); 
-curveVertex(this.xCor + 15, this.yCor + 20); 
+    curveVertex(15 * this.directionFactor, 20);
+    curveVertex(15 * this.directionFactor, 20);
+    curveVertex(5 * this.directionFactor, 55);
+    curveVertex(5 * this.directionFactor, 57);
+    curveVertex(12 * this.directionFactor, 85);
+    curveVertex(5 * this.directionFactor, 85);
+    curveVertex(-5 * this.directionFactor, 57);
+    curveVertex(-5 * this.directionFactor, 55);
+    curveVertex(5 * this.directionFactor, 30);
+    curveVertex(5 * this.directionFactor, 30);
+    endShape();
+    pop();
 
-curveVertex(this.xCor + 5, this.yCor + 55); 
-curveVertex(this.xCor + 5, this.yCor + 57); 
-curveVertex(this.xCor + 12, this.yCor + 85); 
-curveVertex(this.xCor + 5, this.yCor + 85);
-curveVertex(this.xCor + -5, this.yCor + 57); 
-curveVertex(this.xCor + -5, this.yCor + 55); 
-
-
-curveVertex(this.xCor + 5, this.yCor + 30); 
-curveVertex(this.xCor + 5, this.yCor + 30); 
-
-endShape();
-
-// left leg
-beginShape();
-curveVertex(this.xCor + 2, this.yCor + 10);
-curveVertex(this.xCor + 2, this.yCor + 10);
-
-curveVertex(this.xCor - 15, this.yCor + 55); 
-curveVertex(this.xCor - 15, this.yCor + 57); 
-curveVertex(this.xCor - 8, this.yCor + 85); 
-curveVertex(this.xCor - 15, this.yCor + 85); 
-curveVertex(this.xCor - 25, this.yCor + 57); 
-curveVertex(this.xCor - 25, this.yCor + 55);
-
-curveVertex(this.xCor - 5, this.yCor + 10); 
-curveVertex(this.xCor - 5, this.yCor + 10); 
-
-endShape();
-
+    // left leg
+    push();
+    translate(0, 30); 
+    translate(0, -20);  
+    rotate(this.angleLeftLeg);
+    beginShape();
+    curveVertex(2 * this.directionFactor, 10);
+    curveVertex(2 * this.directionFactor, 10);
+    curveVertex(-15 * this.directionFactor, 55);
+    curveVertex(-15 * this.directionFactor, 57);
+    curveVertex(-8 * this.directionFactor, 85);
+    curveVertex(-15 * this.directionFactor, 85);
+    curveVertex(-25 * this.directionFactor, 57);
+    curveVertex(-25 * this.directionFactor, 55);
+    curveVertex(-5 * this.directionFactor, 10);
+    curveVertex(-5 * this.directionFactor, 10);
+    endShape();
+    pop();
+//hair
 stroke(0, 191, 255); 
 for (let i = 0; i < this.numStrands; i++) {
   let xPos = random(-15, 15); 
@@ -166,44 +197,41 @@ for (let i = 0; i < this.numStrands; i++) {
   endShape();
 }
 
-//right eye
-  fill(120, 120, 120, 100); 
-  noStroke();
-  circle(8, -25, 16); 
+ // right eye
+ fill(120, 120, 120, 100);
+ noStroke();
+ circle(this.rightPupilX, this.rightPupilY, 16); 
 
-  fill(180, 180, 180, 150); 
-  circle(8, -25, 14);
+ fill(180, 180, 180, 150);
+ circle(this.rightPupilX, this.rightPupilY, 14);
 
-  fill(240, 240, 240); 
-  circle(8, -25, 12); 
+ fill(240, 240, 240);
+ circle(this.rightPupilX, this.rightPupilY, 12);
 
-  // main outer part of the eye
-  fill(255, 255, 255); 
-  circle(8, -25, 10);
+ fill(255, 255, 255);
+ circle(this.rightPupilX, this.rightPupilY, 10);
 
-   // pupil
-   fill(100, 50, 255); 
-   circle(8, -25, 8.5); 
+ // right pupil inner blue color
+ fill(100, 50, 255);
+ circle(this.rightPupilX, this.rightPupilY, 8.5);
 
-//left eye
- 
-   fill(120, 120, 120, 100); 
-   noStroke();
-   circle(-8.5, -25, 16); 
- 
-   fill(180, 180, 180, 150);
-   circle(-8.5, -25, 14); 
- 
-   fill(240, 240, 240); 
-   circle(-8.5, -25, 12); 
- 
-   //main outer part of the eye
-   fill(255, 255, 255); 
-   circle(-8.5, -25, 10); 
+ // left eye
+ fill(120, 120, 120, 100);
+ noStroke();
+ circle(this.leftPupilX, this.leftPupilY, 16);
 
-    //pupil
-  fill(100, 50, 255);
-  circle(-8.5, -25, 8.5); 
+ fill(180, 180, 180, 150);
+ circle(this.leftPupilX, this.leftPupilY, 14);
+
+ fill(240, 240, 240);
+ circle(this.leftPupilX, this.leftPupilY, 12);
+
+ fill(255, 255, 255);
+ circle(this.leftPupilX, this.leftPupilY, 10);
+
+ // left inner pupil blue color
+ fill(100, 50, 255);
+ circle(this.leftPupilX, this.leftPupilY, 8.5);
 
 
   //lips
