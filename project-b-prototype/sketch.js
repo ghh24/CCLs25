@@ -8,7 +8,7 @@ let img;
 
 function preload() {
   // preload() runs once
-  img = loadImage("meituanCabinet.jpg");
+  img = loadImage("./assets/waimai.jpg");
 }
 
 
@@ -24,7 +24,7 @@ function setup() {
 
 function draw() {
   background(0);
-  image(img, 0, 0, 400, 300);
+  image(img, 0, 0, width, height);
 
 
   // consider generating particles in draw(), using Dynamic Array
