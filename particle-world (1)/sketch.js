@@ -1,6 +1,6 @@
 // CCLab Mini Project - 9.R Particle World Template
 
-let NUM_OF_PARTICLES = 3; // Decide the initial number of particles.
+let NUM_OF_PARTICLES = 10; // Decide the initial number of particles.
 let MAX_OF_PARTICLES = 500; // Decide the maximum number of particles.
 
 let particles = [];
