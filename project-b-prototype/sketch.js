@@ -37,6 +37,7 @@ function setup() {
 
   // Initialize the mic with better setup
   mic = new p5.AudioIn();
+  userStartAudio(); //automatically indicates that user wants to interact with the page to activate microphone, set it automatically 
   mic.start(function() {
     console.log("Mic ready");
   }, function(err) {
@@ -60,6 +61,7 @@ function draw() {
 
   // Get and smooth mic level
   let rawLevel = mic.getLevel();
+  console.log("r", rawLevel)
   micSmoothing = SMOOTHING_FACTOR * micSmoothing + (1 - SMOOTHING_FACTOR) * rawLevel;
   micLevel = micSmoothing * 2; // Amplify slightly
   
@@ -73,7 +75,7 @@ function draw() {
        (receiptVisible ? "Ready to crack!" : "Click bag to start")), 20, 70);
 
   waimai1.display();
-  waimai1.update();
+  waimai1.update();  
 
   for (let i = 0; i < f.length; i++) {
     f[i].update();

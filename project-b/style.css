@@ -1,0 +1,29 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+#p5-canvas-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1; /* This puts it behind other content */
+}
+
+.main-wrapper {
+  position: relative;
+  z-index: 1;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  pointer-events: none; /* Allows clicks to pass through to canvas */
+}
+
+.main-wrapper * {
+  pointer-events: auto; /* But allow interactions with content */
+}
