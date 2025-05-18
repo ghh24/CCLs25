@@ -26,4 +26,4 @@ html, body {
 
 .main-wrapper * {
   pointer-events: auto; /* But allow interactions with content */
-}
+} 

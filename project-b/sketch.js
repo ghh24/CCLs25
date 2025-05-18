@@ -170,14 +170,6 @@ function draw() {
        messageAlpha = 0;
     }
   }
-
-  fill(255);
-  text(`Hands detected: ${hands.length}`, 20, 20);
-  text(`Video ready: ${video?.loadedmetadata}`, 20, 40);
-  text(`Model ready: ${handPose?.modelReady}`, 20, 60);
-  
-  // Temporary: Draw raw video
-  image(video, 0, 0, 200, 150);
 }
 //remnant cabinet
 function drawCabinet() {
