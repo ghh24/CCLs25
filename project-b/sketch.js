@@ -665,4 +665,4 @@ function drawNotifications() {
         
         image(currentTextNotif, width/2 -400, 130,350,120);
   }
-}
+}   
