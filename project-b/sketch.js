@@ -91,7 +91,9 @@ function setup() {
   bgMusic.setVolume(0.5); 
   //bgMusic.loop(); 
   video = createCapture(VIDEO);
-  video.size(width,height);
+  //video.size(width,height);
+    video.size(640,480);
+
 
   video.hide();
   
