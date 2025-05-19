@@ -305,20 +305,35 @@ function drawCollectedBags () {
 
 //glowing indications for fingers & pinch detect
 function drawHandTracking() {
-  if (hands.length === 0) return;
+  if (hands.length > 0) {
+    let indexTip  = hands[0].index_finger_tip; 
+     
+     let thumbTip = hands[0] .thumb_tip;
 
-  const hand = hands[0];
-  const indexTip = hand.indexFinger[3]; // [0]=wrist, [3]=tip
-  const thumbTip = hand.thumb[3];
+    let indexX = indexTip.x * (width / video.width);
+           let indexY = indexTip.y *( height/ video.height);
+         let thumbX =  thumbTip.x *(width/video.width);
+        let thumbY = thumbTip.y *( height/ video.height);
 
-  // Draw fingertips
-  fill(255, 0, 0);
-  circle(indexTip.x, indexTip.y, 15);
-  circle(thumbTip.x, thumbTip.y, 15);
+    drawGlow(indexX, indexY);
+     drawGlow(thumbX, thumbY);
 
-  // Draw line between them
-  stroke(255, 200, 0);
-  line(indexTip.x, indexTip.y, thumbTip.x, thumbTip.y);
+    fill(255, 209,0, 180);
+     circle(indexX, indexY,10);
+    circle(thumbX, thumbY, 10);
+
+    let pinchDistance = dist( indexX,indexY, thumbX, thumbY);
+    if (pinchDistance <PINCH_DISTANCE) {
+      let centerX = (indexX+thumbX) / 2;
+
+         let centerY = (indexY+thumbY) / 2;
+
+      let diameter = map( pinchDistance, 0, PINCH_DISTANCE, 50, 5);
+      fill(255, 100, 0, 120);
+
+      circle(centerX, centerY,diameter);
+    }
+  }
 }
 
 function drawGlow(x, y) {
@@ -383,36 +398,88 @@ function mouseReleased() {
 
 //dtetecting pinch
 function gotHands(results) {
-  if (!results || results.length === 0) {
-    hands = [];
-    return;
-  }
+  hands =results;
+  
+  if ( hands.length >0) {
+      let indexTip = hands[0].index_finger_tip;
+      let thumbTip = hands[0].thumb_tip;
+    
+    let indexX = indexTip.x * (width / video.width);
+      let indexY =indexTip.y * (height / video.height);
+    let thumbX= thumbTip.x * (width /video.width);
+    
+    let thumbY =thumbTip.y * (height /video.height);
+    
+      let pinchDist = dist(indexX, indexY,thumbX, thumbY);
+    
+    // zoomed in bag becomes renmnats if pinch distance small
+    if (zoomedBag )  {
+      if (pinchDist <PINCH_CLOSE_DISTANCE) {
+            if (!isPinchingToClose) {
+          isPinchingToClose =true;
 
-  // 1. Get ACTUAL video dimensions (may differ from requested size)
-  const videoWidth = video.elt.videoWidth;
-  const videoHeight = video.elt.videoHeight;
+          pinchStartTime =millis();
 
-  // 2. Calculate scaling factors
-  const scaleX = width / videoWidth;
-  const scaleY = height / videoHeight;
+          showDiscardMessage= true;
+        }
+            if (millis() -     
+            pinchStartTime >  PINCH_HOLD_TIME&& millis() - lastPinchTime >PINCH_COOLDOWN) {
+          zoomedBag = null;
+              lastPinchTime = millis();
 
-  // 3. Map all hand points to canvas space
-  hands = results.map(hand => {
-    const mappedHand = {};
-    for (const [key, value] of Object.entries(hand.annotations)) {
-      mappedHand[key] = value.map(point => ({
-        x: point[0] * scaleX,
-        y: point[1] * scaleY
-      }));
+             isPinchingToClose =false;
+            showDiscardMessage = false;
+        }
+      } else { //if pinch increased in distance then keep detecting
+          isPinchingToClose = false;
+
+        showDiscardMessage =false;
+      }
     }
-    return mappedHand;
-  });
+    
+    // if no bag is zoomed in and small pinch distance then open new bag
+if (!zoomedBag && millis() - lastPinchTime >PINCH_COOLDOWN &&pinchDist<PINCH_DISTANCE)     {
 
-  // Debug: Log first fingertip position
-  if (hands[0] && hands[0].indexFinger) {
-    console.log("Index finger at:", hands[0].indexFinger[3]); // Tip = 4th point
+    let pinchCenterX = (indexX+thumbX) /2;
+
+    let pinchCenterY = (indexY +thumbY) /2;
+  
+  for (let i = 0; i <compartments.length;i++)   {
+    let compartment = compartments[i];
+
+       if (compartment.isPointInside(pinchCenterX,pinchCenterY))  {
+      let newBag = {};
+        newBag.img = imgArray[compartment.index];
+      newBag.x = random(width *0.1, width *0.9);
+        newBag.y = random(height * 0.1, height *0.9);
+
+      newBag.width = random(120, 180);
+
+      newBag.height = random(150,210);
+      newBag.rotation = random(-15, 15);
+
+      newBag.scale =0;
+      
+          collectedBags.push(newBag); //new bag added to "collected bags" remanants
+      
+        zoomedBag = new ZoomedBag(
+          imgArray[compartment.index],
+
+        receiptArray[compartment.index]
+      );
+      
+          lastPinchTime =millis();
+         break;
+    }
   }
 }
+} else { //no fingers 
+    isPinchingToClose =false;
+
+  showDiscardMessage = false;
+  }
+}
+
 //constructor
 function Compartment(x, y, index,w,h){
    this.x = x;
