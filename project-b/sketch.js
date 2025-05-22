@@ -5,6 +5,10 @@ let compartments =[]; //red outline boxes
 
 let handPose; //ml5 
 let hands=[];
+let options = {
+  maxHands: 1,
+  flipped: true,
+}
  let video;
 
 let PINCH_DISTANCE=60;
@@ -79,7 +83,7 @@ function preload()    {
    textNotifs[1] = loadImage('assets/pinchnotif.png' ) ;
   textNotifs[2] = loadImage('assets/clutternotif.png') ;
 
-  handPose = ml5.handPose() ;
+  handPose = ml5.handPose(options);
 
   
 }
@@ -100,7 +104,7 @@ function setup() {
   handPose.detectStart(video, gotHands);
 //start audio button html ish
 startButton = createButton('Start Audio' );
-startButton.position(width / 2 -50, height/ 2);
+startButton.position(width / 2 -50, height/ 2);  
 
 startButton.style('font-size','20px');
 
