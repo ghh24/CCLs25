@@ -152,7 +152,9 @@ class Bags {
   }
   
   update() {
-    if (mouseIsPressed && mouseX >= 290 && mouseX <= 390 && mouseY >= 175 && mouseY <= 275) {
+    if (mouseIsPressed && mouseX >= 290 && 
+      mouseX <= 390 && mouseY >= 175 && 
+      mouseY <= 275) {
       this.clicked = true;
     }
   }
@@ -177,7 +179,8 @@ class Face {
   }
   
   display() {
-    image(imgArray[0], this.x, this.y, this.s, this.s);
+    image(imgArray[0], this.x, 
+      this.y, this.s, this.s);
   }
   
   update() {

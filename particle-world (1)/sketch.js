@@ -1,59 +1,82 @@
-// CCLab Mini Project - 9.R Particle World Template
+let snowflakes = [];
+let n = 100;
+let bgImg;
 
-let NUM_OF_PARTICLES = 10; // Decide the initial number of particles.
-let MAX_OF_PARTICLES = 500; // Decide the maximum number of particles.
-
-let particles = [];
+function preload() {
+  bgImg = loadImage("assets/cabin.jpg");
+}
 
 function setup() {
   let canvas = createCanvas(800, 500);
   canvas.parent("p5-canvas-container");
 
-  //testing
 
-  // generate particles
-  for (let i = 0; i < NUM_OF_PARTICLES; i++) {
-    particles[i] = new Particle(random(width), random(height));
+  for (let i = 0; i < n; i++) {
+    snowflakes[i] = new Snowflake();
   }
 }
 
 function draw() {
-  background(50);
-
-  // consider generating particles in draw(), using Dynamic Array
-
-  // update and display
-  for (let i = 0; i < particles.length; i++) {
-    let p = particles[i];
-    p.update();
-    p.display();
-  }
-
-  // limit the number of particles
-  if (particles.length > MAX_OF_PARTICLES) {
-    particles.splice(0, 1); // remove the first (oldest) particle
+  image(bgImg, 0, 0, width, height);
+  for (let i = 0; i < snowflakes.length; i++) {
+    snowflakes[i].display();
+    snowflakes[i].move();
+    snowflakes[i].checkBoundaries();
   }
 }
 
-class Particle {
-  // constructor function
-  constructor(startX, startY) {
-    // properties (variables): particle's characteristics
-    this.x = startX;
-    this.y = startY;
-    this.dia = 30;
+class Snowflake {
+  constructor() {
+    this.x = random(width);
+    this.y = random(-height, 0);
+    this.s = random(7, 15);
+    this.yspeed = map(this.s, 2, 8, 0.5, 2);
+    this.xdrift = random(-0.3, 0.3);
+    this.angle = random(TWO_PI);
+    this.rotationSpeed = random(-0.02, 0.02);
   }
-  // methods (functions): particle's behaviors
-  update() {
-    // (add) 
-  }
+
   display() {
-    // particle's appearance
     push();
     translate(this.x, this.y);
+    rotate(this.angle);
 
-    circle(0, 0, this.dia);
+    noStroke();
+    fill(255, 255, 255, 200);
+
+    for (let i = 0; i < 6; i++) {
+      rotate(PI / 3);
+      ellipse(0, this.s * 0.3, this.s * 0.2, this.s);
+      ellipse(this.s * 0.3, this.s * 0.3, this.s * 0.15, this.s * 0.5);
+      triangle(this.s * 0.3, this.s * 0.3,
+        this.s * 0.15, this.s * 0.5,
+        this.s * 0.45, this.s * 0.5); 
+      ellipse(-this.s * 0.3, this.s * 0.3, this.s * 0.15, this.s * 0.5);
+      ellipse(this.s * 0.6, this.s * 0.3, this.s * 0.35, this.s * 0.5);
+      ellipse(-this.s * 0.6, -this.s * 0.3, this.s * 0.35, this.s * 0.5);
+
+
+    }
 
     pop();
+  }
+
+  move() {
+    this.y += this.yspeed;
+    this.x += this.xdrift;
+    this.angle += this.rotationSpeed;
+
+    this.xdrift += random(-0.05, 0.05);
+    this.xdrift = constrain(this.xdrift, -0.5, 0.5);
+  }
+
+  checkBoundaries() {
+    if (this.y > height + this.s) {
+      this.x = random(width);
+      this.y = random(-this.s, -10);
+      this.xdrift = random(-0.3, 0.3);
+    }
+    if (this.x > width + this.s) this.x = -this.s;
+    if (this.x < -this.s) this.x = width + this.s;
   }
 }
